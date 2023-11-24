@@ -1,0 +1,68 @@
+
+
+.search-box{
+  outline: none;
+  width: 21em;
+  height: 2.9em;
+  padding: 10px;
+  border: none;
+  background-color: white;
+  font-size: 14px;
+  padding-left: 2em;
+
+}
+
+.search-iconic{
+  position: relative;
+  left: 2.9em;
+  font-size: 0.8em;
+}
+
+.country-card{
+  width: 14em;
+  height: 18em;
+  background-color: rgb(255, 255, 255);
+  padding: 0px;
+  border: 1px solid rgb(221, 218, 218);
+  transition: 2s;
+  cursor: pointer;
+}
+/* .country-card:hover{
+  
+} */
+
+
+/* Add this to your styles */
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  /* grid-template-columns: max-content; */
+  
+}
+
+.pagination button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+  cursor: pointer;
+  padding: 8px 16px;
+  margin: 0 4px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pagination button:hover {
+  background-color: rgb(236, 240, 241);
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+@media only screen and (max-width: 422px) {
+  .country-card{
+  
+  }
+}
