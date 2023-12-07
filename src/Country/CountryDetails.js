@@ -45,6 +45,15 @@ const CountryDetail = () => {
           <div className="col-md-4"></div>
         </div>
       </div>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="cursor">
+              click <a href="/">Here</a>Check other Countries
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
