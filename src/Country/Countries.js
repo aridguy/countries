@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import CountryDetails from "./CountryDetails";
 
 // ... (previous imports)
 
@@ -13,6 +15,7 @@ const Countries = () => {
   // pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [countriesPerPage] = useState(12);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -45,10 +48,16 @@ const Countries = () => {
   //   ...new Set(allCountries.map((country) => country.region?.value)),
   // ];
 
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  // Function to handle click on a country
+  const handleCountryClick = (country) => {
+    setSelectedCountry(country);
+  };
+
   return (
     <div>
       <Navbar />
-
+      <span onClick={handleCountryClick}></span>
       <section className="mt-5">
         <div className="container">
           <div className="row">
@@ -67,17 +76,17 @@ const Countries = () => {
             </div>
             <div className="col-md-2">
               <div>
-              <select
-              className="form-control"
-              onChange={(e) => setSelectedRegion(e.target.value)}
-            >
-              <option value="all">Filter by Region</option>
-              {region.map((regionName) => (
-                <option key={regionName} value={regionName}>
-                  {regionName}
-                </option>
-              ))}
-            </select>
+                <select
+                  className="form-control"
+                  onChange={(e) => setSelectedRegion(e.target.value)}
+                >
+                  <option value="all">Filter by Region</option>
+                  {region.map((regionName) => (
+                    <option key={regionName} value={regionName}>
+                      {regionName}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -88,29 +97,37 @@ const Countries = () => {
         <div className="container">
           <div className="row">
             {currentCountries.map((country) => (
-              <div key={country.cca3} className="col-md-3 mb-4">
-                <div className="country-card shadow-3">
-                  {/* Assuming you have an image URL in the API response */}
-                  <img
-                    width="100%"
-                    className="country-image"
-                    src={country.flags.png}
-                    alt={`flag-${country.name.common}`}
-                  />
-                  <div>
-                    <p className="fw-bold mx-3 mt-1">{country.name.common}</p>
-                    <small className="mx-3">
-                      <b>Population:</b> {country.population}
-                    </small>{" "}
-                    <br />
-                    <small className="mx-3">
-                      <b>Region:</b> {country.region}
-                    </small>{" "}
-                    <br />
-                    <small className="mx-3">
-                      <b>Capital: </b>
-                      {country.capital}
-                    </small>
+              <div key={country.cca3} className="col-md-3 mb-4 cursor">
+                <div
+                  onClick={() =>
+                    navigate(`/countryDetails/${country.cca3}`, {
+                      state: { ...country },
+                    })
+                  }
+                >
+                  <div className="country-card shadow-3">
+                    {/* Assuming you have an image URL in the API response */}
+                    <img
+                      width="100%"
+                      className="country-image"
+                      src={country.flags.png}
+                      alt={country.name.common}
+                    />
+                    <div>
+                      <p className="fw-bold mx-3 mt-1">{country.name.common}</p>
+                      <small className="mx-3">
+                        <b>Population:</b> {country.population}
+                      </small>{" "}
+                      <br />
+                      <small className="mx-3">
+                        <b>Region:</b> {country.region}
+                      </small>{" "}
+                      <br />
+                      <small className="mx-3">
+                        <b>Capital: </b>
+                        {country.capital}
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -131,7 +148,7 @@ const Countries = () => {
                   },
                   (_, index) => (
                     <button
-                      key={index + 1}
+                      key={`pagination-button-${index}`}
                       onClick={() => setCurrentPage(index + 1)}
                       className={`btn btn-sm ${
                         currentPage === index + 1 ? "btn-primary" : "btn-info"
@@ -146,6 +163,7 @@ const Countries = () => {
           </div>
         </div>
       </section>
+      {selectedCountry && <CountryDetails country={selectedCountry} />}
     </div>
   );
 };
